@@ -1,4 +1,4 @@
-# xlb-plugin2
+# xlb-plugin
 
 ## Project setup
 ```

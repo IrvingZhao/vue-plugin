@@ -19,7 +19,13 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw*
-package-lock.json
 
+# 开发使用内容
+/public/
+/example/
+babel.config.js
+postcss.config.js
+vue.config.js
+.browserslistrc
 # 测试打包
 *.tgz
