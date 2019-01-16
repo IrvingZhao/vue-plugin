@@ -1,5 +1,5 @@
 import ColumnDefine from './columnDefine';
-import GeminiScroll from '@/plugins/geminiScrollbar';
+import GeminiScroll from '../../plugins/geminiScrollbar';
 // import {Table} from 'element-ui';
 
 export default {
