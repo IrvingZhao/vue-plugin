@@ -1,13 +1,13 @@
 <template>
-    <div v-if="formStatus==='normal'" :class="{'search-form':true,'active':searchForm.active}">
-        <div class="form-item-area" v-gemini-scroll="scrollConfig">
+    <div v-if="formStatus==='normal'" :class="{'search-form':true,'active':searchForm.active && hasMore}">
+        <div class="form-item-area" v-gemini-scroll="scrollConfig" ref="formItemArea">
             <div class="gm-scrollbar -vertical">
                 <div class="thumb"></div>
             </div>
             <div class="gm-scrollbar -horizontal">
                 <div class="thumb"></div>
             </div>
-            <div class="gm-scroll-view">
+            <div class="gm-scroll-view" ref="scrollArea">
                 <slot></slot>
             </div>
         </div>
@@ -15,7 +15,7 @@
             <el-button type="primary" @click="search">查询</el-button>
             <el-button type="text" @click="reset">重置</el-button>
         </div>
-        <div class="search-form-toggle-area" @click="toggleForm">
+        <div class="search-form-toggle-area" @click="toggleForm" v-if="hasMore">
             <span v-if="searchForm.active" class="el-icon-my-arrow-top"></span>
             <span v-else class="el-icon-my-arrow"></span>
             <span>更多搜索条件</span>
@@ -49,19 +49,14 @@
                     this.searchForm.active = false;
                 }
             },
-            "searchForm.active"(newVal) {
-                if (newVal) {
-                    this.scrollConfig.instance.create();
-                } else {
-                    this.scrollConfig.instance.getViewElement().scrollTo(0, 0);
-                    this.scrollConfig.instance.destroy();
-                }
-            }
         },
-        created() {
+        updated() {
+            this.computedProperty();
+            this.updateView();
         },
         data() {
             return {
+                hasMore: false,
                 formStatus: "normal",
                 scrollConfig: {
                     createElements: false,
@@ -76,6 +71,19 @@
             };
         },
         methods: {
+            computedProperty() {
+                let formItemArea = this.$refs.formItemArea;
+                this.hasMore = this.formStatus === 'normal' && formItemArea.scrollHeight > formItemArea.offsetHeight;
+            },
+            updateView() {
+                if (this.searchForm.active && this.hasMore) {
+                    console.info("created");
+                    this.scrollConfig.instance.create();
+                } else {
+                    this.scrollConfig.instance.getViewElement().scrollTo(0, 0);
+                    this.scrollConfig.instance.destroy();
+                }
+            },
             toggleForm() {
                 this.searchForm.active = !this.searchForm.active;
                 this.searchForm.text = this.searchForm.active ? "关闭" : "展开";
@@ -97,7 +105,7 @@
             edit() {
                 this.formStatus = "normal";
                 this.searchForm.active = true;
-                this.scrollConfig.autoCreate = true;
+                // this.scrollConfig.autoCreate = true;
             }
         }
     }
@@ -112,35 +120,43 @@
         height: 50px;
         overflow: hidden;
         padding-bottom: 15px;
+
         &.active {
             flex: 0 0 150px;
             height: 150px;
             overflow: auto;
+
             .gm-scrollbar {
                 display: block;
+
                 &.-horizontal {
                     display: none;
                 }
             }
         }
+
         .form-item-area {
             flex: 1 1 auto;
             overflow: hidden;
             position: relative;
         }
+
         .gm-scrollbar {
             display: none;
         }
+
         .gm-scroll-view {
             display: flex;
             flex-wrap: wrap;
         }
+
         .search-button-area {
             flex: 0 0 200px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+
         .search-form-toggle-area {
             position: absolute;
             bottom: 0;
@@ -163,9 +179,11 @@
     .search-params {
         flex: 0 0 auto;
         margin-top: 10px;
+
         > span {
             font-size: 14px;
         }
+
         .el-tag {
             margin: 5px 5px;
         }
