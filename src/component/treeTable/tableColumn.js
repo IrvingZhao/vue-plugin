@@ -1,4 +1,4 @@
-import {getPropByPath} from 'element-ui/src/utils/util';
+import {getPropByPath} from '../../utils/util';
 
 const DEFAULT_RENDER_CELL = function (h, {row, column, $index}) {
     const property = column.property;
