@@ -53,6 +53,19 @@ function generateTree(data, parentNodeKey, mapCache, idKey = "id", parentKey = "
     return result;
 }
 
+/**
+ * 根据对象的parentNode 获得 节点 path
+ * */
+function getTreePath(data, fromId, pushId = "id", parentNode = "parentNode") {
+    let pathArr = [];
+    let parent = data[fromId];
+    while (parent) {
+        pathArr.push(parent[pushId]);
+        parent = parent[parentNode];
+    }
+    return pathArr.reverse();
+}
+
 export default {
     setItem,
     getItem,
