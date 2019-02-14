@@ -1,21 +1,43 @@
 export default {
     name: "xlb-config-slot",
-    props: ["slotKeys"],
-    render(_c) {
-        let slotEls = [];
-        if (this.$slots.default) {
-            slotEls = [...this.$slots.default];
+    props: {
+        slotKeys: {
+            type: Array,
+            required: true
+        },
+        sort: {
+            type: Array,
+            default: null
+        },
+        enabled: {
+            type: Boolean,
+            default: false
         }
-        this.slotKeys.forEach(item => {
-            let slotItem = this.$slots[item];
-            if (slotItem) {
-                slotItem.forEach(vNodeItem => {
-                    slotEls.push(vNodeItem);
-                })
+    },
+    // props: ["slotKeys", "sort","enabled"],
+    render(_c) {
+        let slotKeyMap = {};
+        let sortKeys = this.sort || Object.keys(this.$slots);
+        let hasDefault = false;
+        let slotEls = [];
+        this.slotKeys.forEach((item) => {
+            slotKeyMap[item] = true;
+        });
+        sortKeys.forEach((item) => {
+            if (!this.enabled || item === "default" || slotKeyMap[item]) {
+                if (item === "default") {
+                    hasDefault = true;
+                }
+                if (this.$slots[item]) {
+                    this.$slots[item].forEach((vNodeItem) => {
+                        slotEls.push(vNodeItem);
+                    });
+                }
             }
         });
-        if (this.$slots.defaultRight) {
-            this.$slots.defaultRight.forEach(vNodeItem => {
+
+        if (!hasDefault) {
+            this.$slots.default.forEach((vNodeItem) => {
                 slotEls.push(vNodeItem);
             })
         }
