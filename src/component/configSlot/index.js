@@ -37,9 +37,11 @@ export default {
         });
 
         if (!hasDefault) {
-            this.$slots.default.forEach((vNodeItem) => {
-                slotEls.push(vNodeItem);
-            })
+            if (this.$slots.default) {
+                this.$slots.default.forEach((vNodeItem) => {
+                    slotEls.push(vNodeItem);
+                });
+            }
         }
         return _c("div", {}, slotEls);
     }
