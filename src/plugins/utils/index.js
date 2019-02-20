@@ -8,6 +8,8 @@ function setItem(key, value) {
     }
     if (sessionStorage) {
         sessionStorage.setItem(key, JSON.stringify(value));
+    } else {
+        return null;
     }
 }
 
@@ -17,6 +19,14 @@ function getItem(key) {
     }
     if (sessionStorage) {
         return JSON.parse(sessionStorage.getItem(key));
+    } else {
+        return null;
+    }
+}
+
+function clearStorage() {
+    if (sessionStorage) {
+        sessionStorage.clear();
     }
 }
 
@@ -137,6 +147,7 @@ function getCurrentAndChildProp(current, propKey, childrenNode = "children") {
 export default {
     setItem,
     getItem,
+    clearStorage,
     dateFormat,
     getSimpleDate,
     getFullDate,
