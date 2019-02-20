@@ -9,28 +9,16 @@
         </xlb-search-form>
         <xlb-toolbar slot="toolBar">
             <template slot="pageTitle">订单流水</template>
-            <demo-slot-test page-key="123">
+            <xlb-config-slot :slot-keys="['a','b','c']">
                 <el-button size="small" slot="a">按钮3</el-button>
+                <el-button size="small" slot="b">按钮4</el-button>
                 <template slot="c">
                     <el-button size="small">slot 按钮1</el-button>
                     <el-button size="small">slot 按钮2</el-button>
                 </template>
                 <el-button size="small" icon="el-icon-my-user-define">自定义列
                 </el-button>
-                <el-button size="small" slot="b">按钮4</el-button>
-                <el-button size="small">测试2</el-button>
-            </demo-slot-test>
-            <!--<xlb-config-slot :slot-keys="['a','c']" :enabled="true">-->
-            <!--<el-button size="small" slot="a">按钮3</el-button>-->
-            <!--<template slot="c">-->
-            <!--<el-button size="small">slot 按钮1</el-button>-->
-            <!--<el-button size="small">slot 按钮2</el-button>-->
-            <!--</template>-->
-            <!--<el-button size="small" icon="el-icon-my-user-define">自定义列-->
-            <!--</el-button>-->
-            <!--<el-button size="small" slot="b">按钮4</el-button>-->
-            <!--<el-button size="small">测试2</el-button>-->
-            <!--</xlb-config-slot>-->
+            </xlb-config-slot>
         </xlb-toolbar>
         <xlb-config-column-grid slot="grid" ref="grid" :table-params="tableParams" :all-config-columns="allTableColumns"
                                 :visible-columns.sync="visibleColumns" @updateColumns="updateColumns">

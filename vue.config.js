@@ -1,5 +1,5 @@
 const host = "localhost";
-const port = 4000;
+const port = 3000;
 const baseUrl = "/";
 const outputDir = "dist";
 const assertDir = "static";
