@@ -65,6 +65,8 @@ function generateTree(data, parentNodeKey, mapCache, idKey = "id", parentKey = "
                 if (parentNodeKey) {
                     item[parentNodeKey] = dataCache[cacheParentKey];
                 }
+            }else{//如果当前节点的父节点id未找到指定对象，则当前对象作为根节点的自己节点
+                result.push(item);
             }
         } else {
             result.push(item);
